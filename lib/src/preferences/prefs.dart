@@ -15,6 +15,21 @@ class Prefs {
     return prefs.getString('language_code');
   }
 
+  Future<String?> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('access_token');
+  }
+
+  setToken(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.setString('access_token', token);
+  }
+
+  clearToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('access_token');
+  }
+
   //login/sing up
   setSkip() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

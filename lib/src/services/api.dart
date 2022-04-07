@@ -9,22 +9,25 @@ class Api {
     return _api;
   }
 
+  String? token;
+
   final Dio _dio = Dio(BaseOptions(
-    baseUrl: "",
-    connectTimeout: 5000,
-    receiveTimeout: 3000,
+    baseUrl: "http://172.21.0.1:3000",
+    connectTimeout: 60 * 1000, // 60 seconds
+    receiveTimeout: 60 * 1000,
     headers: {
       HttpHeaders.acceptHeader: "application/json",
       HttpHeaders.contentTypeHeader: "application/json",
-      HttpHeaders.authorizationHeader: ""
     },
   ));
   Future<Response> httpGet(String path) async {
     return await _dio.request(
       path,
-      options: Options(
-        method: "GET",
-      ),
+      options: Options(method: "GET", headers: {
+        HttpHeaders.acceptHeader: "application/json",
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: 'Bearer $token'
+      }),
     );
   }
 
@@ -32,10 +35,12 @@ class Api {
     return await _dio.request(
       path,
       data: body,
-      options: Options(
-        method: "POST",
-        contentType: "application/json",
-      ),
+      options:
+          Options(method: "POST", contentType: "application/json", headers: {
+        HttpHeaders.acceptHeader: "application/json",
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: 'Barear $token'
+      }),
     );
   }
 
@@ -43,19 +48,23 @@ class Api {
     return await _dio.put(
       path,
       data: body,
-      options: Options(
-        method: "PUT",
-        contentType: "application/json",
-      ),
+      options:
+          Options(method: "PUT", contentType: "application/json", headers: {
+        HttpHeaders.acceptHeader: "application/json",
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: 'Barear $token'
+      }),
     );
   }
 
   Future<Response> httpDelete(String path) async {
     return await _dio.delete(
       path,
-      options: Options(
-        method: "DELETE",
-      ),
+      options: Options(method: "DELETE", headers: {
+        HttpHeaders.acceptHeader: "application/json",
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: 'Barear $token'
+      }),
     );
   }
 
@@ -63,19 +72,23 @@ class Api {
     return await _dio.patch(
       path,
       data: body,
-      options: Options(
-        method: "PATCH",
-        contentType: "application/json",
-      ),
+      options:
+          Options(method: "PATCH", contentType: "application/json", headers: {
+        HttpHeaders.acceptHeader: "application/json",
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: 'Barear $token'
+      }),
     );
   }
 
   Future<Response> httpHead(String path) async {
     return await _dio.head(
       path,
-      options: Options(
-        method: "HEAD",
-      ),
+      options: Options(method: "HEAD", headers: {
+        HttpHeaders.acceptHeader: "application/json",
+        HttpHeaders.contentTypeHeader: "application/json",
+        HttpHeaders.authorizationHeader: 'Barear $token'
+      }),
     );
   }
 
@@ -85,6 +98,11 @@ class Api {
       "file": await MultipartFile.fromFile(file.path, filename: fileName),
     });
     return await _dio.request(path,
-        data: formData, options: Options(method: "POST"));
+        data: formData,
+        options: Options(method: "POST", headers: {
+          HttpHeaders.acceptHeader: "application/json",
+          HttpHeaders.contentTypeHeader: "application/json",
+          HttpHeaders.authorizationHeader: 'Barear $token'
+        }));
   }
 }

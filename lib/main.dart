@@ -1,11 +1,15 @@
 import 'package:chaty/src/extensions/extensions.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:chaty/src/preferences/prefs.dart';
+import 'package:chaty/src/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(MultiProvider(providers: const [], child: const MyApp()));
+  //await Firebase.initializeApp();
+  String? token = await Prefs.instance.getToken();
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider(token)),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

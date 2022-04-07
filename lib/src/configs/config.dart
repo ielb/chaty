@@ -15,7 +15,7 @@ class Config {
   String imageBaseUrl = "https://image.tmdb.org/t/p/";
 
   // *  Colors
-  Color get primaryColor => const Color(0xFFFF6600);
+  Color get primary => const Color(0xFF0073da);
   Color get boxColor => const Color(0xFFF0F0F0);
   Color get textColor => const Color(0xFF232323);
   Color get loaderGrey => const Color.fromRGBO(0, 0, 0, 0.07);
@@ -32,24 +32,23 @@ class Config {
   Color get seperatorColorGrey => const Color(0xfff4f4f4);
   Color get googleRed => const Color(0xFFdd4b39);
   Color get facbookBlue => const Color(0xFF3B5998);
-  Color get firstPackage => const Color(0xFFFFD9C0);
 
   // *  ThemeData
   ThemeData theme() => ThemeData(
       backgroundColor: const Color(0xFFF0F0F0),
-      primaryColor: const Color(0xFFFF6600),
-      colorScheme: const ColorScheme(
+      primaryColor: primary,
+      colorScheme: ColorScheme(
         brightness: Brightness.light,
-        primary: Color(0xFFFF6600),
-        onPrimary: Color(0xFFFF6600),
-        error: Color(0xFFe52d27),
-        secondary: Color(0xFFFF6600),
-        onSecondary: Color(0xFFFF6600),
-        surface: Color(0xFFF0F0F0),
-        onSurface: Color(0xFFF0F0F0),
-        background: Color(0xFFF0F0F0),
-        onBackground: Color(0xFFF0F0F0),
-        onError: Color(0xFFe52d27),
+        primary: primary,
+        onPrimary: primary,
+        error: const Color(0xFFe52d27),
+        secondary: primary,
+        onSecondary: primary,
+        surface: const Color(0xFFF0F0F0),
+        onSurface: const Color(0xFFF0F0F0),
+        background: const Color(0xFFF0F0F0),
+        onBackground: const Color(0xFFF0F0F0),
+        onError: const Color(0xFFe52d27),
       ),
       textTheme: TextTheme(
         headline1: GoogleFonts.poppins(
@@ -115,42 +114,12 @@ class Config {
       ));
 
   // * Assets Images
-  String appIcon = "assets/images/logooo.png";
-  String get appLogo => "assets/images/chaty.png";
-  String get cityImage => "assets/images/agadir.png";
-  String get berline => "assets/images/berline.png";
 
   // ! bottom bar icons
 
-  String get homeIcon => "assets/images/home.png";
-  String get searchIcon => "assets/images/search.png";
-  String get profileIcon => "assets/images/profile.png";
-  String get parkingIcon => "assets/images/parking.png";
-  String get addCarIcon => "assets/images/addcar.png";
-  String get reelsIcon => "assets/images/reels.png";
-  String get facebookLogo => "assets/images/fb_logo.png";
-  String get googleLogo => "assets/images/google_plus_logo.png";
-  String get appleLogo => "assets/images/apple.png";
-
-  String get sortAscendingIcon => "assets/images/sort-ascending.png";
-
-  String get parkingBackground => "assets/images/bg-parking.png";
-  String get addCarBackground => "assets/images/bg-add.png";
-  String get authbg => "assets/images/bg-motif.png";
-
   //! languages flags
 
-  String get ar => "assets/images/ar.png";
-  String get en => "assets/images/en.png";
-  String get fr => "assets/images/fr.png";
-
   // ? links
-
-  String get faqLink => "https://chaty.com/en/help";
-  String get privacyLink => "https://chaty.com/en/privacy";
-  String get aboutLink => "https://chaty.com/about";
-  String get contactLink => "https://chaty.com/en/contact-us";
-  String get resetPasswordLink => "https://www.chaty.com/fr/password/reset";
 
   // ? sizes
 
@@ -161,102 +130,84 @@ class Config {
   Widget loader() {
     return Platform.isIOS
         ? CupertinoActivityIndicator(
-            color: primaryColor,
+            color: primary,
           )
         : CircularProgressIndicator(
-            color: primaryColor,
+            color: primary,
+            strokeWidth: 2,
           );
   }
 
-  showLoginDialog(BuildContext context) {
+  showErrorDialog(BuildContext context, String message) {
     showDialog(
         context: context,
-        builder: (context) => Center(
-              child: Material(
-                color: Colors.transparent,
+        builder: (context) => Material(
+              color: Colors.transparent,
+              child: Center(
                 child: Container(
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  padding: const EdgeInsets.all(20),
+                  width: MediaQuery.of(context).size.width * .8,
+                  height: MediaQuery.of(context).size.height * .4,
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      Icon(
+                        Ionicons.information_circle_outline,
+                        color: Config.instance.primary,
+                        size: 80,
+                      ).paddingOnly(bottom: 20, top: 10),
+                      Text(
+                        "Error !",
+                        style: GoogleFonts.poppins(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            decoration: TextDecoration.none,
+                            color: Config.instance.black),
+                      ).paddingOnly(bottom: 20),
+                      Text(
+                        message,
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            decoration: TextDecoration.none,
+                            color: Config.instance.black),
+                      ).paddingOnly(bottom: 20),
                       const Spacer(),
-                      Text.rich(
-                        TextSpan(
-                            text: "Faire une offre",
-                            style: GoogleFonts.poppins(
-                                color: grey,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w700),
-                            children: [
-                              TextSpan(
-                                text:
-                                    "\nGrace à ce service vous pourriez faire une offre afin de négocier le prix de la voiture, veuillez vous identifier pour en profiter ",
-                                style: GoogleFonts.poppins(
-                                    color: grey,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w400),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width,
+                          decoration: BoxDecoration(
+                              color: Config.instance.primary,
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                      Config.instance.primary.withOpacity(.5),
+                                  offset: const Offset(0, 10),
+                                  blurRadius: 10,
+                                ),
+                              ]),
+                          child: Center(
+                            child: Text(
+                              "OK",
+                              style: GoogleFonts.poppins(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Config.instance.white,
+                                decoration: TextDecoration.none,
                               ),
-                            ]),
-                        textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ).paddingOnly(bottom: 20, left: 10, right: 10),
                       ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: grey.withOpacity(.4),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Fermer",
-                                    style: GoogleFonts.poppins(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: InkWell(
-                              onTap: () {},
-                              child: Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: primaryColor,
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "S'identifier",
-                                    style: GoogleFonts.poppins(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
                     ],
                   ),
                 ),
@@ -264,37 +215,17 @@ class Config {
             ));
   }
 
-  share(String text) {
-    Share.share(text);
+  loading(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return Center(
+            child: loader(),
+          );
+        });
   }
 
-  // * functions
-
-  substringPrice(double price) {
-    return price == 0
-        ? 'Prix non spécifié'
-        : price.toString().length == 4
-            ? price.toString().substring(0, 1) +
-                " " +
-                price.toString().substring(1, 3) +
-                " MAD"
-            : price.toString().length == 5
-                ? price.toString().substring(0, 2) +
-                    " " +
-                    price.toString().substring(2, 3) +
-                    " MAD"
-                : price.toString().length == 6
-                    ? price.toString().substring(0, 3) +
-                        " " +
-                        price.toString().substring(3, 3) +
-                        " MAD"
-                    : price.toString().length == 7
-                        ? price.toString().substring(0, 1) +
-                            " " +
-                            price.toString().substring(1, 3) +
-                            " " +
-                            price.toString().substring(4, 3) +
-                            " MAD"
-                        : price.toString() + " MAD";
+  share(String text) {
+    Share.share(text);
   }
 }
